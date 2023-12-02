@@ -25,9 +25,11 @@ describe('[GET] /hobbits', () => {
 describe('[POST] /hobbits', () => {
     const bilbo = { name: 'bilbo'}
     test('adds a hobbit to the database', async () => {
-        const res = await request(server).post
+        await request(server).post('/hobbits').send(bilbo)
+        expect(await db('hobbits')).toHaveLength(5)
     })
     test('responds with the new hobbit', async () => {
-
+       const res = await request(server).post('/hobbits').send(bilbo)
+        expect(res.body).toMatchObject(bilbo)
     })
 })
